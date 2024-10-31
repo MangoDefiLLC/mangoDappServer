@@ -11,15 +11,13 @@ require('dotenv').config();
 
 // CORS configuration
 const corsOptions = {
-    origin: 'http://localhost:4000',//`${process.env.SERVER_URL}`,  // Your frontend URL
+    origin: process.env.DAPP_URL,  // Your frontend URL
     credentials: true,  // Allow credentials (cookies, etc.)
-    //optionSuccessStatus: 200  // Success status for older browsers
+    optionSuccessStatus: 200  // Success status for older browsers
   };
   
 // Initialize Express
 const app = express();
-const port = 'http://localhost:4000';//http://localhost:4000/
-
 // Middleware
 app.use(bodyParser.json());
 app.use(cors(corsOptions));
@@ -35,14 +33,13 @@ app.listen(PORT, () => {
 app.post('/getAmountsOut', async (req,res)=>{
     try{
         const params = req.query
-        console.log(params)
         const priceInfo = await getAmountOut(params);
-        
+
         console.log('resposne',priceInfo)
         
         res.status(200).json(priceInfo);
        
     } catch(e){
-        console.log('server get mount error',e)
+        console.log('server: /getAmountsOut route -> error',e)
     }
 });
